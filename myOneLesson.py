@@ -1,6 +1,7 @@
 import json
 import datetime
 import time
+import uuid
 from ics import Calendar, Event
 
 class oneLesson(object):
@@ -161,9 +162,14 @@ class oneLesson(object):
         return thisDayDatetime
     
     def oneLessonToIcsEvent(self):
+    	uidname = "{}{}{}{}{}{}{}".format(self.__nameOfTheLesson, self.__dayOfTheWeek, self.__numOfTheLesson,
+                                          self.__addressOfTheLesson, self.__numOfWeeks, self.__teacherNameOfTheLesson,
+                                          self.__weeks)
+    	UID = uuid.uuid5(uuid.NAMESPACE_DNS, uidname)
         e = Event()
         e.name = "({}){}".format(self.addressOfTheLesson, self.nameOfTheLesson)
-        e.uid = self.oneLessonID
+        e.uid = str(UID)
+        #e.uid = self.oneLessonID
         e.description = "任课老师：{} \n 周数：{}".format(self.teacherNameOfTheLesson, self.__weeks)
         e.location = self.addressOfTheLesson
         e.begin = self.startTime
